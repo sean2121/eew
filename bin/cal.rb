@@ -36,7 +36,8 @@ def distance(latitude_s, longitude_s)
   cos_lat_2 = cos(latitude_s * Math::PI / 180)
   lamda1 = @longitude_e * Math::PI / 180
   lamda2 = longitude_s * Math::PI / 180
-  puts distance = 6370 * acos(sin_lat_1*sin_lat_2+cos_lat_1*cos_lat_2*cos(lamda1-lamda2))
+  distance = 6370 * acos(sin_lat_1*sin_lat_2+cos_lat_1*cos_lat_2*cos(lamda1-lamda2))
+  p distance 
 end
 
 latitude_s = 33.590354700000
