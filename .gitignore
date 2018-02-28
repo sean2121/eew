@@ -1,0 +1,4 @@
+.env
+.DS_Store
+.codacy.yaml
+.vscode/c_cpp_properties.json
