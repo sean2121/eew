@@ -2,13 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d44afd54-efcd-4c08-80ae-f3eb7fff23d7" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change beforePath="$PROJECT_DIR$/bin/cal.cr" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/bin/cal.rb" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/bin/denbun.txt" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Gemfile" afterPath="$PROJECT_DIR$/Gemfile" />
+      <change beforePath="$PROJECT_DIR$/Gemfile.lock" afterPath="$PROJECT_DIR$/Gemfile.lock" />
       <change beforePath="$PROJECT_DIR$/lib/raigyo.rb" afterPath="$PROJECT_DIR$/lib/raigyo.rb" />
-      <change beforePath="$PROJECT_DIR$/lib/raigyo/calculator.rb" afterPath="$PROJECT_DIR$/lib/raigyo/calculator.rb" />
-      <change beforePath="$PROJECT_DIR$/lib/raigyo/user.rb" afterPath="$PROJECT_DIR$/lib/raigyo/user.rb" />
+      <change beforePath="$PROJECT_DIR$/lib/raigyo/eewparser.rb" afterPath="$PROJECT_DIR$/lib/raigyo/eewparser.rb" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,11 +16,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="raigyo.rb" pinned="false" current-in-tab="true">
+      <file leaf-file-name="raigyo.rb" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/raigyo.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="6" lean-forward="true" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
+            <state relative-caret-position="1095">
+              <caret line="73" column="6" lean-forward="false" selection-start-line="73" selection-start-column="6" selection-end-line="73" selection-end-column="6" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="calculator.rb" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lib/raigyo/calculator.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -81,6 +88,12 @@
               <item name="sol" type="462c0819:PsiDirectoryNode" />
               <item name="lib" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="sol" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sol" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="raigyo" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -118,12 +131,12 @@
       <option name="presentableId" value="Default" />
       <updated>1519914952355</updated>
       <workItem from="1519914954901" duration="112000" />
-      <workItem from="1519954779728" duration="423000" />
+      <workItem from="1519954779728" duration="789000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="535000" />
+    <option name="totallyTimeSpent" value="901000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="832" extended-state="6" />
@@ -170,8 +183,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/raigyo.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="6" lean-forward="true" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
+        <state relative-caret-position="1095">
+          <caret line="73" column="6" lean-forward="false" selection-start-line="73" selection-start-column="6" selection-end-line="73" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/raigyo/calculator.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>

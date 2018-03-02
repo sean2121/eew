@@ -49,6 +49,9 @@ include Math
   def amplification(pgv)
     pgv * 2
   end 
+
+  def window time
+  end
   
 
   #
