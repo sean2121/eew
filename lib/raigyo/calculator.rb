@@ -1,6 +1,6 @@
+module Raigyo
 module Calculator
 include Math
-
   #PVGから求めた震度を返す。
   #iINSTR =2.68+1.72log(PGV)    (4<IINSTR<7)  
   def shindo(latitude_s, longitude_s, mjma, depth, latitude_e, longitude_e)
@@ -8,7 +8,6 @@ include Math
     mw = mjma_to_mw(mjma)
     fl = falut_length(mw)
     shortest_distance = d - fl 
-
     pgv700 = max_speed(shortest_distance, depth, mw)
     p pgv = amplification(pgv700)
     p 2.68 + 1.72 * log10(pgv)  
@@ -66,3 +65,4 @@ include Math
     two_points_distance - l
   end
 end 
+end

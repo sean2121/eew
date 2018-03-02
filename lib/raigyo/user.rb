@@ -2,7 +2,7 @@ require './raigyo/calculator.rb'
 require "pry"
 
 class User
-include Calculator
+include Raigyo::Calculator
 
   def initialize(latitude, longitude, id)
     @latitude_e = latitude

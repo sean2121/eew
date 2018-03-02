@@ -1,9 +1,10 @@
-require 'benchmark'
 require 'pry'
 require './raigyo/user.rb'
 require './raigyo/mailman.rb'
+require './raigyo/eewparser.rb'
 require 'dotenv/load'
-require "twitter"
+require 'twitter'
+require 'csv'
 
 
 Dotenv.load
@@ -12,30 +13,98 @@ client = Twitter::REST::Client.new do |config|
   config.consumer_secret     = ENV['ConsumerSecret']
 end
 
-Thread.start{
+client.user_timeline('eewbot', count: 1 ).each do |tweet|
+  eew = Eewparser.new(tweet.full_text).parse
+  p eew
+end
+
+=begin
+電文の種別
+
+35：最大震度のみ。Mの推定なし
+
+36、37：最大震度、Mの推定あり
+
+39：キャンセル
+
+訓練識別符
+
+00：通常
+
+01：訓練
+
+発表状況
+
+0：通常
+
+7：キャンセルを誤って発表したとき（地震ID以降の項目は空）
+
+8,9：最終報
+
+電文番号
+
+地震IDごとに00-99
+
+震源海陸判定
+
+0：陸
+
+1：海
+
+警報の有無
+
+0：警報なし。予報。M3.5以上と推定、もしくは地震計で100ガル以上の加速度を検知した時発表。小さな地震でも発表。
+
+1：警報あり。一般向けEEWが発表されている。テレビとかで出てるやつ。
+
+=end
+
+
+=begin
+loop do 
+  client.user_timeline('eewbot', count: 1 ).each do |tweet|
+     if tweet.id != @id 
+       Thread.new{
+       
+         Eewparser.new(row)
+        end
+        }
+      end
+      @id = tweet.id
+       5.times{puts "hi"}
+  end
+end
+=end
+  
+
+=begin
+fiber = Fiber.new do 
   loop do 
+    p @id
     client.user_timeline('eewbot', count: 1 ).each do |tweet|
-     p tweet.text
+       if tweet.id.equal?(@id)
+         Fiber.yield
+       else
+         @id = tweet.id
+         puts "hello"
+       end
     end
   end 
-}
+end 
 
-  loop do 
-    puts "hello"
-    sleep 0.5
-  end
+loop do 
+ fiber.resume
+end 
 
-#発生地
-latitude_s = 38.4385
-longitude_s = 141.3016
+def my_func
+  3.times{"hello"}
+end
+=end
 
 #観測値
 latitude_e = 38.103335
 longitude_e = 142.864177
 
-depth = 24
-mjma = 8.4
-
-Mailman.new(latitude_s, longitude_s, mjma, depth, User.new(latitude_e, longitude_e, 1))
+#発生地
 
 
