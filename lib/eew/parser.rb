@@ -1,6 +1,6 @@
 require 'pry'
 
-class Eewparser 
+class Parser 
   class Error < StandardError; end
   def initialize(row)
     raise ArgumentError unless row.kind_of?(String)

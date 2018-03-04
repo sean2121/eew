@@ -1,7 +1,7 @@
 require 'pry'
-require './raigyo/user.rb'
-require './raigyo/mailman.rb'
-require './raigyo/eewparser.rb'
+require './eew/user.rb'
+require './eew/mailman.rb'
+require './eew/parser.rb'
 require 'dotenv/load'
 require 'twitter'
 require 'csv'
@@ -17,7 +17,7 @@ client = Twitter::REST::Client.new do |config|
 end
 
 client.user_timeline('eewbot', count: 1 ).each do |tweet|
-  eew = Eewparser.new(tweet.full_text).parse
+  eew = Parser.new(tweet.full_text).parse
   if eew[:test] != 0
     latitude_s, longitude_s, mjma, depth = eew[:latitude_s], eew[:longitude_s], eew[:mjma], eew[:depth]
     p eew[:latitude_s]
@@ -76,7 +76,6 @@ loop do
   client.user_timeline('eewbot', count: 1 ).each do |tweet|
      if tweet.id != @id 
        Thread.new{
-       
          Eewparser.new(row)
         end
         }
