@@ -1,19 +1,20 @@
 module EEW
   module Calculator
     include Math
-    #PGVから求めた震度を返す。
 
-    #IINSTR =2.68+1.72log(PGV)(4<IINSTR<7)
+    #PVGから求めた震度を返す。
+    #iINSTR =2.68+1.72log(PGV)    (4<IINSTR<7)
     def shindo(latitude_s, longitude_s, mjma, depth, latitude_e, longitude_e)
-      p d = two_points_distance(latitude_s, longitude_s, latitude_e, longitude_e, depth)
-      p mw = mjma_to_mw(mjma)
-      p fl = falut_length(mw)
-      p shortest_distance = d - fl
-      p pgv700 = max_speed(shortest_distance, depth, mw)
-      iinstr = 2.68 + 1.72 * log10(pgv700)
-      return iinstr
+      d = two_points_distance(latitude_s, longitude_s, latitude_e, longitude_e, depth)
+      mw = mjma_to_mw(mjma)
+      fl = falut_length(mw)
+      shortest_distance = d - fl
+      pgv700 = max_speed(shortest_distance, depth, mw)
+      return pgv700
     end
 
+
+    private
     #2点間の距離を返す。
     #R^2=D^2+(k*(Ax-Bx))^2+(k*(Ay-By))^2
     def two_points_distance(latitude_s, longitude_s, latitude_e, longitude_e, depth)
@@ -21,14 +22,12 @@ module EEW
       distance = Math.sqrt(((depth ** 2) + (k * (latitude_s - latitude_e)) ** 2 + (k * (longitude_s - longitude_e)) ** 2))
       return distance
     end
-    
+
     #気象庁マグニチュードからモーメントマグニチュードに変換した値を返す。
     def mjma_to_mw(mjma)
-      mw = (mjma - 0.171)
-      return 8.4
+      return(mjma - 0)
     end
 
-    
     #断層長
     def falut_length(mw)
       diameter = 10 ** (0.5 * mw - 1.85)
@@ -38,22 +37,21 @@ module EEW
       end
       return diameter
     end
-    
+
     #最大速度を求める工学的基盤面(PGV700)を返す。
     #log(PGV600)=0.58Mw+0.0038D-1.29-log(x+0.002810^0.50Mw)-0.002 x
     #(m/s)
-    def max_speed(shortest_distance, depth, mw) 
+    def max_speed(shortest_distance, depth, mw)
       log_pgv600 = (0.58 * mw) + (0.0038 * depth) - 1.29 - log10(shortest_distance + 0.002810 ** (0.50 * mw)) - 0.002 * shortest_distance
       pgv600 = 10 ** log_pgv600
       pgv700 = pgv600 * 0.9
       return pgv700
     end
-    
-    
+
     def amplification(pgv)
-      return(pgv * 2.25853)
+      return(pgv * 2)
     end
-  
+
     # 猶予時間 =N-(B-A)-C
     # N= 地震到達所要時間
     # A= 地震発生時刻
@@ -61,9 +59,9 @@ module EEW
     # C= 通信および計算定数
     def window_time
     end
-    
-    #球面三角法を用いいた2点間距離を求める。 
-    def distance(latitude_s, longitude_s, latitude_e, longitude_e) 
+
+    #球面三角法を用いいた2点間距離を求める。
+    def distance(latitude_s, longitude_s, latitude_e, longitude_e)
       sin_lat_1 = sin(latitude_e * Math::PI / 180)
       cos_lat_1 = cos(latitude_e * Math::PI / 180)
       sin_lat_2 = sin(latitude_s * Math::PI / 180)
