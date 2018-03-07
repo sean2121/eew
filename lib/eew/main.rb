@@ -7,8 +7,8 @@ require 'twitter'
 require 'csv'
 
 #観測値
-latitude_e = 24.234869
-longitude_e = 123.700470
+latitude_e = 35.64091
+longitude_e = 139.689244
 
 Dotenv.load
 client = Twitter::REST::Client.new do |config|
@@ -16,10 +16,19 @@ client = Twitter::REST::Client.new do |config|
   config.consumer_secret     = ENV['ConsumerSecret']
 end
 
-#client.user_timeline('eewbot', count: 1 ).each do |tweet|
-# 
-#  end
-#end
+client.user_timeline('eewbot', count: 1 ).each do |tweet|
+  eew = Parser.new(tweet.full_text).parse
+  if eew[:test] != 0
+    latitude_s, longitude_s, mjma, depth = eew[:latitude_s], eew[:longitude_s], eew[:mjma], eew[:depth]
+    p eew[:latitude_s]
+    p eew[:longitude_s]
+    p eew[:mjma]
+    p eew[:depth]
+    p eew[:region]
+
+    Mailman.new(latitude_s.to_f, longitude_s.to_f, mjma.to_f, depth.to_f, User.new(latitude_e, longitude_e, 1))
+  end
+end
 
 =begin
 電文の種別
@@ -62,19 +71,13 @@ end
 
 =end
 
+
+=begin
 loop do 
   client.user_timeline('eewbot', count: 1 ).each do |tweet|
      if tweet.id != @id 
        Thread.new{
-          eew = Parser.new(tweet.full_text).parse
-          if eew[:test] != 0
-            latitude_s, longitude_s, mjma, depth = eew[:latitude_s], eew[:longitude_s], eew[:mjma], eew[:depth]
-            p eew[:latitude_s]
-          p eew[:longitude_s]
-          p eew[:mjma]
-          p eew[:depth]
-          p eew[:region]
-          p Mailman.new(latitude_s.to_f, longitude_s.to_f, mjma.to_f, depth.to_f, User.new(latitude_e, longitude_e, 1))
+         Eewparser.new(row)
         end
         }
       end
@@ -82,7 +85,7 @@ loop do
        5.times{puts "hi"}
   end
 end
-
+=end
   
 
 =begin
