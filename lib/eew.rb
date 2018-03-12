@@ -1,1 +1,1 @@
-require 'eew/main.rb'
+require './eew/main.rb'

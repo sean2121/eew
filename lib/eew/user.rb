@@ -11,6 +11,6 @@ include EEW::Calculator
   end
   
   def calc(mailman)
-   p shindo = self.shindo(mailman.latitude_s, mailman.longitude_s, mailman.mjma, mailman.depth, @latitude_e, @longitude_e)
+    self.shindo(mailman.latitude_s, mailman.longitude_s, mailman.mjma, mailman.depth, @latitude_e, @longitude_e)
   end
 end

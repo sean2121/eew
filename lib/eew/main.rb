@@ -1,7 +1,7 @@
 require 'pry'
-require 'user.rb'
-require 'mailman.rb'
-require 'parser.rb'
+require './eew/user.rb'
+require './eew/mailman.rb'
+require './eew/parser.rb'
 require 'dotenv/load'
 require 'twitter'
 require 'csv'
@@ -16,6 +16,8 @@ client = Twitter::REST::Client.new do |config|
   config.consumer_secret     = ENV['ConsumerSecret']
 end
 
+
+=begin
 client.user_timeline('eewbot', count: 1 ).each do |tweet|
   eew = Parser.new(tweet.full_text).parse
   if eew[:test] != 0
@@ -25,10 +27,11 @@ client.user_timeline('eewbot', count: 1 ).each do |tweet|
     p eew[:mjma]
     p eew[:depth]
     p eew[:region]
-
-    Mailman.new(latitude_s.to_f, longitude_s.to_f, mjma.to_f, depth.to_f, User.new(latitude_e, longitude_e, 1))
+    alert = Mailman.new(latitude_s.to_f, longitude_s.to_f, mjma.to_f, depth.to_f, User.new(latitude_e, longitude_e, 1))
+    #binding.pry
   end
 end
+=do 
 
 =begin
 電文の種別
@@ -72,20 +75,21 @@ end
 =end
 
 
-=begin
+
 loop do 
   client.user_timeline('eewbot', count: 1 ).each do |tweet|
-     if tweet.id != @id 
-       Thread.new{
-         Eewparser.new(row)
-        end
-        }
-      end
-      @id = tweet.id
-       5.times{puts "hi"}
+    if tweet.id != @id 
+      threads_mutex = Mutex.new
+      threads_mutex.synchronize do 
+        eew = Parser.new(tweet.full_text).parse
+        latitude_s, longitude_s, mjma, depth = eew[:latitude_s], eew[:longitude_s], eew[:mjma], eew[:depth]
+        p eew[:region]
+        alert = Mailman.new(latitude_s.to_f, longitude_s.to_f, mjma.to_f, depth.to_f, User.new(latitude_e, longitude_e, 1))
+      end 
+    end
+   p @id = tweet.id
   end
 end
-=end
   
 
 =begin

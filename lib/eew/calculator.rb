@@ -5,11 +5,11 @@ module EEW
 
     #IINSTR =2.68+1.72log(PGV)(4<IINSTR<7)
     def shindo(latitude_s, longitude_s, mjma, depth, latitude_e, longitude_e)
-      p d = two_points_distance(latitude_s, longitude_s, latitude_e, longitude_e, depth)
-      p mw = mjma_to_mw(mjma)
-      p fl = falut_length(mw)
-      p shortest_distance = d - fl
-      p pgv700 = max_speed(shortest_distance, depth, mw)
+      d = two_points_distance(latitude_s, longitude_s, latitude_e, longitude_e, depth)
+      mw = mjma_to_mw(mjma)
+      fl = falut_length(mw)
+      shortest_distance = d - fl
+      pgv700 = max_speed(shortest_distance, depth, mw)
       iinstr = 2.68 + 1.72 * log10(pgv700)
       return iinstr
     end
@@ -24,8 +24,8 @@ module EEW
     
     #気象庁マグニチュードからモーメントマグニチュードに変換した値を返す。
     def mjma_to_mw(mjma)
-      mw = (mjma - 0.171)
-      return 8.4
+      #mw = (mjma - 0.171)
+      return mjma
     end
 
     
