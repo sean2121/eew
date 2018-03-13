@@ -10,7 +10,7 @@ include EEW::Calculator
     @id = id
   end
   
-  def calc(mailman)
+  def update(mailman)
     self.shindo(mailman.latitude_s, mailman.longitude_s, mailman.mjma, mailman.depth, @latitude_e, @longitude_e)
   end
 end
