@@ -7,8 +7,8 @@ require 'twitter'
 require 'csv'
 
 #観測値
-latitude_e = 35.64091
-longitude_e = 139.689244
+latitude_e = 35.648554
+longitude_e = 139.700882
 
 Dotenv.load
 client = Twitter::REST::Client.new do |config|
@@ -16,22 +16,32 @@ client = Twitter::REST::Client.new do |config|
   config.consumer_secret     = ENV['ConsumerSecret']
 end
 
-
-=begin
-client.user_timeline('eewbot', count: 1 ).each do |tweet|
-  eew = Parser.new(tweet.full_text).parse
-  if eew[:test] != 0
-    latitude_s, longitude_s, mjma, depth = eew[:latitude_s], eew[:longitude_s], eew[:mjma], eew[:depth]
-    p eew[:latitude_s]
-    p eew[:longitude_s]
-    p eew[:mjma]
-    p eew[:depth]
-    p eew[:region]
-    alert = Mailman.new(latitude_s.to_f, longitude_s.to_f, mjma.to_f, depth.to_f, User.new(latitude_e, longitude_e, 1))
-    #binding.pry
+loop do
+  begin
+  client.user_timeline('eewbot', count: 1 ).each do |tweet|
+    sleep(2)
+    if tweet.id != @id
+      threads_mutex = Mutex.new
+      threads_mutex.synchronize do
+      eew = Parser.new(tweet.full_text).parse
+      latitude_s, longitude_s, mjma, depth = eew[:latitude_s], eew[:longitude_s], eew[:mjma], eew[:depth]
+      eew.each do |elem|
+        p elem
+      end
+      earthquake = Mailman.new(latitude_s.to_f, longitude_s.to_f, mjma.to_f, depth.to_f)
+      earthquake.add_user(User.new(latitude_e, longitude_e, 1))
+      earthquake.notify_to_user
+      end
+    end
+  @id = tweet.id
   end
+  rescue => ex
+    puts ex.message
+  end
+  sleep(2)
 end
-=do 
+
+
 
 =begin
 電文の種別
@@ -76,51 +86,3 @@ end
 
 
 
-loop do 
-  client.user_timeline('eewbot', count: 1 ).each do |tweet|
-    if tweet.id != @id 
-      threads_mutex = Mutex.new
-      threads_mutex.synchronize do 
-        eew = Parser.new(tweet.full_text).parse
-        latitude_s, longitude_s, mjma, depth = eew[:latitude_s], eew[:longitude_s], eew[:mjma], eew[:depth]
-        p eew[:region]
-        earthquake = Mailman.new(latitude_s.to_f, longitude_s.to_f, mjma.to_f, depth.to_f)
-        earthquake.add_user(User.new(latitude_e, longitude_e, 1))
-        earthquake.notify_to_user
-      end 
-    end
-   p @id = tweet.id
-  end
-end
-  
-
-=begin
-fiber = Fiber.new do 
-  loop do 
-    p @id
-    client.user_timeline('eewbot', count: 1 ).each do |tweet|
-       if tweet.id.equal?(@id)
-         Fiber.yield
-       else
-         @id = tweet.id
-         puts "hello"
-       end
-    end
-  end 
-end 
-
-loop do 
- fiber.resume
-end 
-
-def my_func
-  3.times{"hello"}
-end
-=end
-
-
-
-#発生地
-
-
-#Mailman.new(latitude_s, longitude_s, mjma, depth, User.new(latitude_e, longitude_e, 1))
