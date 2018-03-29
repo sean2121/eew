@@ -11,6 +11,6 @@ include EEW::Calculator
   end
   
   def update(mailman)
-    p self.shindo(mailman.latitude_s, mailman.longitude_s, mailman.mjma, mailman.depth, @latitude_e, @longitude_e)
+    p self.shindo(mailman.latitude_s, mailman.longitude_s, mailman.mjma, mailman.depth, @latitude_e, @longitude_e, mailman.announce_time, mailman.earthquake_time)
   end
 end

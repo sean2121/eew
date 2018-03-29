@@ -1,12 +1,14 @@
 class Mailman
 
-  attr_reader :latitude_s, :longitude_s, :mjma, :depth
+  attr_reader :latitude_s, :longitude_s, :mjma, :depth, :announce_time, :earthquake_time
 
-  def initialize(latitude_s, longitude_s, mjma, depth)
+  def initialize(latitude_s, longitude_s, mjma, depth , announce_time, earthquake_time)
     @latitude_s = latitude_s
     @longitude_s = longitude_s
     @mjma = mjma
     @depth = depth
+    @announce_time = announce_time
+    @earthquake_time = earthquake_time
     @users = []
   end
 

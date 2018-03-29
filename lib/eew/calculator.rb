@@ -4,15 +4,14 @@ module EEW
     #PGVから求めた震度を返す。
 
     #IINSTR =2.68+1.72log(PGV)(4<IINSTR<7)
-    def shindo(latitude_s, longitude_s, mjma, depth, latitude_e, longitude_e)
+    def shindo(latitude_s, longitude_s, mjma, depth, latitude_e, longitude_e, announce_time, earthquake_time)
       d = two_points_distance(latitude_s, longitude_s, latitude_e, longitude_e, depth)
       mw = mjma_to_mw(mjma)
       fl = falut_length(mw)
       shortest_distance = d - fl
       pgv700 = max_speed(shortest_distance, depth, mw)
       iinstr = 2.68 + 1.72 * log10(pgv700)
-      return iinstr, window_time(depth, shortest_distance)
-      
+      return iinstr, window_time(depth, shortest_distance, announce_time, earthquake_time)
     end
 
     # 猶予時間 = N-(B-A)-C
@@ -21,9 +20,10 @@ module EEW
     # B= 電文の発表時刻
     # C= 通信および計算定数
     #走時表
-    def window_time(depth, shortest_distance)
+    def window_time(depth, shortest_distance, announce_time, earthquake_time)
       readings = Traveltime.new('test.csv')
-      readings.time_estimate(depth, shortest_distance)
+      taple = readings.time_estimate(depth, shortest_distance)
+      taple[0].to_i - (Time.parse(announce_time) - Time.parse(earthquake_time))
     end
 
     #2点間の距離を返す。
