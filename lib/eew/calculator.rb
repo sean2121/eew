@@ -11,7 +11,19 @@ module EEW
       shortest_distance = d - fl
       pgv700 = max_speed(shortest_distance, depth, mw)
       iinstr = 2.68 + 1.72 * log10(pgv700)
-      return iinstr
+      return iinstr, window_time(depth, shortest_distance)
+      
+    end
+
+    # 猶予時間 = N-(B-A)-C
+    # N= 地震到達所要時間
+    # A= 地震発生時刻
+    # B= 電文の発表時刻
+    # C= 通信および計算定数
+    #走時表
+    def window_time(depth, shortest_distance)
+      readings = Traveltime.new('test.csv')
+      readings.time_estimate(depth, shortest_distance)
     end
 
     #2点間の距離を返す。
@@ -54,13 +66,7 @@ module EEW
       return(pgv * 2.25853)
     end
   
-    # 猶予時間 =N-(B-A)-C
-    # N= 地震到達所要時間
-    # A= 地震発生時刻
-    # B= 電文の発表時刻
-    # C= 通信および計算定数
-    def window_time
-    end
+   
     
     #球面三角法を用いいた2点間距離を求める。 
     def distance(latitude_s, longitude_s, latitude_e, longitude_e) 

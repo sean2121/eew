@@ -2,6 +2,7 @@ require 'pry'
 require './eew/user.rb'
 require './eew/mailman.rb'
 require './eew/parser.rb'
+require './eew/traveltime.rb'
 require 'dotenv/load'
 require 'twitter'
 require 'csv'
@@ -16,10 +17,11 @@ client = Twitter::REST::Client.new do |config|
   config.consumer_secret     = ENV['ConsumerSecret']
 end
 
+
+
 loop do
-  begin
+  #begin
   client.user_timeline('eewbot', count: 1 ).each do |tweet|
-    sleep(2)
     if tweet.id != @id
       threads_mutex = Mutex.new
       threads_mutex.synchronize do
@@ -35,9 +37,9 @@ loop do
     end
   @id = tweet.id
   end
-  rescue => ex
-    puts ex.message
-  end
+  #rescue => ex
+  #  puts ex.message
+  #end
   sleep(2)
 end
 
