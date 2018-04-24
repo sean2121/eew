@@ -7,6 +7,8 @@ require 'dotenv/load'
 require 'twitter'
 require 'csv'
 
+hound = 'HOUND'
+
 #観測値
 latitude_e = 35.648554
 longitude_e = 139.700882
