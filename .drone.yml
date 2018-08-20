@@ -1,0 +1,4 @@
+build:
+  image: kawahiro311/centos6.7-ruby2.3-postgres9.4
+  commands:
+  - ruby -v
