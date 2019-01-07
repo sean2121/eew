@@ -7,38 +7,32 @@ require 'dotenv/load'
 require 'twitter'
 require 'csv'
 
-#観測値
+#観測値の座標
 latitude_e = 35.648554
 longitude_e = 139.700882
 
 Dotenv.load
 client = Twitter::REST::Client.new do |config|
-  config.consumer_key        = ENV['ConsumerKey']
-  config.consumer_secret     = ENV['ConsumerSecret']
+  config.consumer_key = ENV['ConsumerKey']
+  config.consumer_secret = ENV['ConsumerSecret']
 end
 
 loop do
-  #begin
-  client.user_timeline('eewbot', count: 1 ).each do |tweet|
+  client.user_timeline('eewbot', count: 1).each do |tweet|
     if tweet.id != @id
       threads_mutex = Mutex.new
       threads_mutex.synchronize do
-      eew = Parser.new(tweet.full_text).parse
-      p eew
-      latitude_s, longitude_s, mjma, depth, announce_time, earthquake_time = eew[:latitude_s], eew[:longitude_s], eew[:mjma], eew[:depth], eew[:announce_time], eew[:earthquake_time]
-      earthquake = Mailman.new(latitude_s.to_f, longitude_s.to_f, mjma.to_f, depth.to_f, announce_time, earthquake_time)
-      earthquake.add_user(User.new(latitude_e, longitude_e, 1))
-      earthquake.notify_to_user
+        eew = Parser.new(tweet.full_text).parse
+        latitude_s, longitude_s, mjma, depth, announce_time, earthquake_time = eew[:latitude_s], eew[:longitude_s], eew[:mjma], eew[:depth], eew[:announce_time], eew[:earthquake_time]
+        earthquake = Mailman.new(latitude_s.to_f, longitude_s.to_f, mjma.to_f, depth.to_f, announce_time, earthquake_time)
+        earthquake.add_user(User.new(latitude_e, longitude_e, 1))
+        earthquake.notify_to_user
       end
     end
-  @id = tweet.id
+    @id = tweet.id
   end
-  #rescue => ex
-  #  puts ex.message
-  #end
   sleep(2)
 end
-
 
 
 =begin
@@ -79,7 +73,6 @@ end
 0：警報なし。予報。M3.5以上と推定、もしくは地震計で100ガル以上の加速度を検知した時発表。小さな地震でも発表。
 
 1：警報あり。一般向けEEWが発表されている。テレビとかで出てるやつ。
-
 =end
 
 

@@ -33,14 +33,14 @@ module EEW
       distance = Math.sqrt(((depth ** 2) + (k * (latitude_s - latitude_e)) ** 2 + (k * (longitude_s - longitude_e)) ** 2))
       return distance
     end
-    
+
     #気象庁マグニチュードからモーメントマグニチュードに変換した値を返す。
     def mjma_to_mw(mjma)
       #mw = (mjma - 0.171)
       return mjma
     end
 
-    
+
     #断層長
     def falut_length(mw)
       diameter = 10 ** (0.5 * mw - 1.85)
@@ -50,26 +50,25 @@ module EEW
       end
       return diameter
     end
-    
+
     #最大速度を求める工学的基盤面(PGV700)を返す。
     #log(PGV600)=0.58Mw+0.0038D-1.29-log(x+0.002810^0.50Mw)-0.002 x
     #(m/s)
-    def max_speed(shortest_distance, depth, mw) 
+    def max_speed(shortest_distance, depth, mw)
       log_pgv600 = (0.58 * mw) + (0.0038 * depth) - 1.29 - log10(shortest_distance + 0.002810 ** (0.50 * mw)) - 0.002 * shortest_distance
       pgv600 = 10 ** log_pgv600
       pgv700 = pgv600 * 0.9
       return pgv700
     end
-    
-    
+
+
     def amplification(pgv)
       return(pgv * 2.25853)
     end
-  
-   
-    
-    #球面三角法を用いいた2点間距離を求める。 
-    def distance(latitude_s, longitude_s, latitude_e, longitude_e) 
+
+
+    #球面三角法を用いた2点間距離を求める。
+    def distance(latitude_s, longitude_s, latitude_e, longitude_e)
       sin_lat_1 = sin(latitude_e * Math::PI / 180)
       cos_lat_1 = cos(latitude_e * Math::PI / 180)
       sin_lat_2 = sin(latitude_s * Math::PI / 180)
